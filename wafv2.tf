@@ -1,6 +1,6 @@
 ...
   rule {
-    name     = "Log4JRCE"
+    name     = "Log4RCE"
     priority = ?
 
     override_action {
@@ -17,7 +17,7 @@
         }
 
         excluded_rule {
-          name = "NoUserAgent_HEADER"
+          name = "PROPFIND_METHOD"
         }
 
         excluded_rule {
@@ -28,29 +28,61 @@
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "Log4JRCE"
+      metric_name                = "Log4RCE"
       sampled_requests_enabled   = true
     }
   }
 
   rule {
-    name     = "Log4JRCE-Block"
+    name     = "Log4RCE-Block"
     priority = ?
 
     action {
       block {}
     }
-
+    
     statement {
-      label_match_statement {
-        scope = "LABEL"
-        key   = "awswaf:managed:aws:known-bad-inputs:Log4JRCE"
+      or_statement {
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:known-bad-inputs:Log4JRCE"
+          }
+        }
+
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:known-bad-inputs:JavaDeserializationRCE_HEADER"
+          }
+        }
+
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:known-bad-inputs:JavaDeserializationRCE_BODY"
+          }
+        }
+
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:known-bad-inputs:JavaDeserializationRCE_URIPATH"
+          }
+        }
+
+        statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "awswaf:managed:aws:known-bad-inputs:JavaDeserializationRCE_QUERYSTRING"
+          }
+        }
       }
     }
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "Log4JRCE-blocking"
+      metric_name                = "Log4RCE-blocking"
       sampled_requests_enabled   = true
     }
   }
