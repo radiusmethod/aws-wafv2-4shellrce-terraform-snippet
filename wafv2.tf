@@ -1,6 +1,6 @@
 ...
   rule {
-    name     = "Log4RCE"
+    name     = "4ShellRCEs"
     priority = ?
 
     override_action {
@@ -28,13 +28,13 @@
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "Log4RCE"
+      metric_name                = "4ShellRCEs"
       sampled_requests_enabled   = true
     }
   }
 
   rule {
-    name     = "Log4RCE-Block"
+    name     = "4ShellRCEs-Block"
     priority = ?
 
     action {
@@ -82,7 +82,7 @@
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "Log4RCE-blocking"
+      metric_name                = "4ShellRCEs-blocking"
       sampled_requests_enabled   = true
     }
   }
